@@ -5,3 +5,85 @@ date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
 
+# Purpose
+
+Bring in the data from Facebook and visualize
+
+```{r}
+library(tidyverse)
+
+df <- read.csv(here::here("data", "data-for-good-at-meta-commuting-zones-july-2021.csv"))
+
+df <- df %>% 
+  as_tibble()
+```
+
+
+```{r}
+# df %>% 
+#   head() %>% view
+
+df <- df %>% 
+  janitor::clean_names()
+
+df <- df %>% select(1:10)
+
+df <- df %>%
+  mutate(across(c(fbcz_id_num, win_population, win_roads_km, area), parse_number))
+```
+
+```{r}
+library(sf)
+
+df <- df %>% 
+  filter(country %in% c("Sweden")) 
+  
+
+prj4string <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
+my.projection <- st_crs(prj4string)
+
+map <- st_as_sf(df, wkt = "geometry", crs = my.projection)
+# st_crs(map)
+
+
+map %>%
+  ggplot(aes(fill = win_population)) +
+  geom_sf(aes(geometry = geometry)) +
+  scale_fill_viridis_c(option = "magma", 
+                       labels = scales::number_format(),
+                       trans = "sqrt"
+                       ) +
+  theme_void() +
+  labs(fill = "Population in commuting region")
+
+
+jpeg(filename = here::here("figures", "sweden_communting_boundaries.jpeg"),
+     height = 4, 
+     width = 6,
+     res = 1000,
+     units = "in")
+
+map %>%
+  ggplot(aes(fill = win_population)) +
+  geom_sf(aes(geometry = geometry)) +
+  scale_fill_viridis_c(option = "magma", 
+                       labels = scales::number_format(),
+                       trans = "sqrt"
+                       ) +
+  theme_void() +
+  guides(fill = guide_colorbar(title.position = "top",
+                               barheight = 12)) +
+  labs(fill = "Population in commuting region") +
+  coord_sf(ylim = c(55, 61))
+
+dev.off()
+```
+
+
+```{r}
+map %>% 
+  ggplot(aes(fill = win_roads_km)) +
+  geom_sf(aes(geometry = geometry))
+
+```
+

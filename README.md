@@ -2,8 +2,13 @@
 
 ## Purpose
 
-Describes project
+Tracking Stockholm commutes based on mantalslängder.
+
+Idea - follow format uf US census bureau - [linked here](https://www.census.gov/topics/employment/commuting.html)
+
+
 
 ## Process
 
-Describes how far I am
+Starting with FB commuting zones data to show purpose.
+

@@ -1,2 +1,7 @@
 # Data Index
 
+data-for-good from [facebook](https://data.humdata.org/dataset/commuting-zones#)
+
+Commuting zones are geographic areas where people live and work and are useful for understanding local economies, as well as how they differ from traditional boundaries. These zones are a set of boundary shapes built using aggregated estimates of home and work locations. Data used to build commuting zones is aggregated and de-identified.
+
+If you use this dataset please reference / cite Data for Good at Meta and include a link to the Commuting Zones page [here:](https://dataforgood.facebook.com/dfg/tools/commuting-zones)
